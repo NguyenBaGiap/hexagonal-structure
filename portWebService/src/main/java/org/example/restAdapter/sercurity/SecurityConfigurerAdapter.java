@@ -1,7 +1,6 @@
 package org.example.restAdapter.sercurity;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -17,7 +16,6 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity security) throws Exception {
         security
                 .csrf().disable()
-                .anonymous().disable()
                 .authorizeRequests()
                     .antMatchers("/v1/public/**").permitAll().and()
                 .authorizeRequests()
