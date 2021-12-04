@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface StudentPersistencePort {
     List<Student> getAllStudent();
+    Student createStudent(Student student);
 }

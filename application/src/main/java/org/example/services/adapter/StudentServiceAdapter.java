@@ -16,4 +16,8 @@ public class StudentServiceAdapter implements StudentService {
     public List<Student> getAllStudent() {
         return studentPersistencePort.getAllStudent();
     }
+
+    public Student createStudent(Student student) {
+        return studentPersistencePort.createStudent(student);
+    }
 }

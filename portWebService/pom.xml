@@ -6,7 +6,7 @@
         <artifactId>hexagonal-structure</artifactId>
         <groupId>org.example</groupId>
         <version>1.0-SNAPSHOT</version>
-<!--        <relativePath />-->
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -53,5 +53,10 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
     </dependencies>
+
 </project>
