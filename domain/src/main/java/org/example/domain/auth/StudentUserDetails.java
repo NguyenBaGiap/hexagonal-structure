@@ -1,17 +1,22 @@
-package org.example.restAdapter.entity;
+package org.example.domain.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.example.domain.student.models.Student;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
+import java.util.Collections;
 
 @Data
 @AllArgsConstructor
-public class StudentDetails implements UserDetails {
+public class StudentUserDetails implements UserDetails {
+
+    private Student student;
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_STUDENT_API"));
     }
 
     public String getPassword() {
@@ -19,22 +24,22 @@ public class StudentDetails implements UserDetails {
     }
 
     public String getUsername() {
-        return null;
+        return student.getEmail();
     }
 
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

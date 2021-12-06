@@ -4,10 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.domain.student.StudentPersistencePort;
 import org.example.domain.student.models.Student;
 import org.example.persistence.entity.StudentEntity;
-import org.example.persistence.mapper.StudentMapper;
 import org.example.persistence.repository.StudentRepository;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,9 +35,22 @@ public class StudentSpringJpaAdapter implements StudentPersistencePort {
 
     @Override
     public Student createStudent(Student student) {
-        StudentEntity entity =  StudentMapper.INSTANCE.modelToEntity(student);
+        StudentEntity entity =  new StudentEntity();
+        BeanUtils.copyProperties(student, entity);
         StudentEntity saved = studentRepository.save(entity);
-        return StudentMapper.INSTANCE.entityToModel(saved);
+        BeanUtils.copyProperties(saved, student);
+        return student;
+    }
+
+    @Override
+    public Optional<Student> findByEmail(String email) {
+        StudentEntity entity = studentRepository.findByEmail(email);
+        if(entity != null){
+            Student student = new Student();
+            BeanUtils.copyProperties(entity, student);
+            return  Optional.of(student);
+        }
+        return Optional.empty();
     }
 
 }
