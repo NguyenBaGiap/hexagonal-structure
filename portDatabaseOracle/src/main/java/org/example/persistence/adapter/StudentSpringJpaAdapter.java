@@ -3,6 +3,7 @@ package org.example.persistence.adapter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.student.StudentPersistencePort;
 import org.example.domain.student.models.Student;
+import org.example.domain.student.models.StudentRole;
 import org.example.persistence.entity.StudentEntity;
 import org.example.persistence.repository.StudentRepository;
 import org.springframework.beans.BeanUtils;
@@ -21,36 +22,46 @@ public class StudentSpringJpaAdapter implements StudentPersistencePort {
 
     @Override
     public List<Student> getAllStudent() {
+        List<StudentEntity> x = studentRepository.findAll();
         return studentRepository
                 .findAll()
                 .stream()
-                .map(studentEntity -> Student
-                        .builder()
-                        .id(studentEntity.getId())
-                        .email(studentEntity.getEmail())
-                        .build()
-                )
+                .map(this::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Student createStudent(Student student) {
-        StudentEntity entity =  new StudentEntity();
-        BeanUtils.copyProperties(student, entity);
+        StudentEntity entity = toEntity(student);
         StudentEntity saved = studentRepository.save(entity);
-        BeanUtils.copyProperties(saved, student);
-        return student;
+        return toDomain(saved);
     }
 
     @Override
     public Optional<Student> findByEmail(String email) {
-        StudentEntity entity = studentRepository.findByEmail(email);
-        if(entity != null){
-            Student student = new Student();
-            BeanUtils.copyProperties(entity, student);
-            return  Optional.of(student);
-        }
-        return Optional.empty();
+       return  studentRepository
+               .findByEmail(email)
+               .map(this::toDomain);
+    }
+
+    private Student toDomain(StudentEntity entity) {
+        return Student
+                .builder()
+                .id(entity.getId())
+                .email(entity.getEmail())
+                .mobileNumber(entity.getMobileNumber())
+                .roles(entity.getRoles()
+                        .stream()
+                        .map(role -> StudentRole.valueOf(role.getName().name()))
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    private StudentEntity toEntity(Student student) {
+        return StudentEntity.builder()
+                .email(student.getEmail())
+                .mobileNumber(student.getMobileNumber())
+                .build();
     }
 
 }

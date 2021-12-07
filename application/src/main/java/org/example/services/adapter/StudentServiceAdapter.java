@@ -6,10 +6,8 @@ import org.example.domain.student.models.Student;
 import org.example.services.ports.StudentService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 public class StudentServiceAdapter implements StudentService {
     final StudentPersistencePort studentPersistencePort;
@@ -34,7 +32,7 @@ public class StudentServiceAdapter implements StudentService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return studentPersistencePort
                 .findByEmail(email)
-                .map(StudentUserDetails::new)
+                .map(StudentUserDetails::apply)
                 .orElse(null);
     }
 }

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -59,6 +61,7 @@ public class StudentController {
                     .email(saved.getEmail())
                     .mobileNumber(saved.getMobileNumber())
                     .accessToken(jwt)
+                    .roles(saved.getRoles().stream().map(Enum::name).collect(Collectors.toList()))
                     .build();
         } catch (Exception exception) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "Error");

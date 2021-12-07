@@ -2,6 +2,7 @@ package org.example.persistence.comon;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
@@ -12,10 +13,10 @@ public class BaseEntity  implements Serializable {
     private Long id;
 
     @Column(name = "created_at", columnDefinition = "datetime")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at", columnDefinition = "datetime")
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 
     public Long getId() {
         return id;
@@ -25,19 +26,19 @@ public class BaseEntity  implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
